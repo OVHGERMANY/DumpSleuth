@@ -1,24 +1,9 @@
 # Core dependencies
-pefile>=2023.2.7
-capstone>=5.0.0
-hexdump>=3.3
-colorama>=0.4.6
+rich>=13.0.0          # For beautiful terminal output
+hexdump>=3.3          # For hex viewing
+python-magic>=0.4.27  # For file type detection
 
-# Analysis tools
-numpy>=1.24.0
-pandas>=2.0.0
-python-magic>=0.4.27
-yara-python>=4.3.1
-
-# Output formatting
-rich>=13.0.0
-tabulate>=0.9.0
-
-# System tools
-psutil>=5.9.0
-distorm3>=3.5.2
-libmagic
-
-# Optional: Enhanced features
-# volatility3>=2.5.0  # Uncomment if you want full memory forensics
-# rekall>=1.7.2       # Alternative memory analysis framework 
+# Optional: Add more as needed
+# pefile>=2023.2.7    # For PE file analysis
+# psutil>=5.9.0       # For system information
+# yara-python>=4.3.1  # For pattern matching 

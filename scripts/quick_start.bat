@@ -45,22 +45,20 @@ echo   1. Automated Analysis (Recommended for beginners)
 echo   2. Manual Analysis (Interactive exploration)
 echo   3. String Extraction (Find readable text)
 echo   4. Install Dependencies (First time setup)
-echo   5. Test Encoding Fix (If you saw garbled characters)
-echo   6. View Help/Documentation
-echo   7. Exit
+echo   5. View Help/Documentation
+echo   6. Exit
 echo.
 
-set /p choice="Select option (1-7): "
+set /p choice="Select option (1-6): "
 
 if "%choice%"=="1" goto automated
 if "%choice%"=="2" goto manual
 if "%choice%"=="3" goto strings
 if "%choice%"=="4" goto install
-if "%choice%"=="5" goto test_encoding
-if "%choice%"=="6" goto help
-if "%choice%"=="7" goto exit
+if "%choice%"=="5" goto help
+if "%choice%"=="6" goto exit
 
-echo ERROR: Invalid choice. Please select 1-7.
+echo ERROR: Invalid choice. Please select 1-6.
 pause
 goto :eof
 
@@ -103,15 +101,6 @@ if errorlevel 1 (
 ) else (
     echo SUCCESS: Dependencies installed successfully!
 )
-pause
-goto :eof
-
-:test_encoding
-echo.
-echo Testing Encoding Fix...
-echo This will test if the character encoding issues are resolved
-echo.
-python analyzer/test_encoding.py
 pause
 goto :eof
 

@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 """
 Memory Dump Analysis Tool
-Automated analysis for BEService.exe dump files
+Automated analysis for dump files
 """
 
 import os
 import re
 import sys
-import struct
 import datetime
 from pathlib import Path
-from typing import List, Dict, Any, Tuple
-import json
+from typing import List, Dict, Any
 
 try:
     from rich.console import Console
@@ -24,26 +22,26 @@ try:
     import magic
 except ImportError as e:
     print(f"Missing required library: {e}")
-    print("Please run: pip install -r requirements.txt")
+    print("Please run: pip install -r scripts/requirements.txt")
     sys.exit(1)
+
+# Import common module
+if __name__ == "__main__":
+    import common
+else:
+    from . import common
 
 class DumpAnalyzer:
     def __init__(self, dump_file: str):
         self.dump_file = dump_file
-        self.console = Console()
+        self.console = common.get_console()
         self.results = {}
         self.analysis_dir = Path("analysis_results")
         self.analysis_dir.mkdir(exist_ok=True)
         
     def banner(self):
         """Display banner"""
-        banner_text = """
-================================================================
-                     DUMP SLEUTH
-                Memory Dump Analysis
-================================================================
-        """
-        self.console.print(banner_text, style="bold")
+        common.print_banner(self.console)
         
     def basic_file_info(self) -> Dict[str, Any]:
         """Get basic information about the dump file"""
@@ -59,7 +57,7 @@ class DumpAnalyzer:
         file_info = {
             "filename": file_path.name,
             "size": stat.st_size,
-            "size_human": self.format_size(stat.st_size),
+            "size_human": common.format_size(stat.st_size),
             "created": datetime.datetime.fromtimestamp(stat.st_ctime),
             "modified": datetime.datetime.fromtimestamp(stat.st_mtime),
         }
@@ -92,20 +90,12 @@ class DumpAnalyzer:
         """Extract readable strings from the dump file"""
         self.console.print(f"\n[bold yellow]>> Extracting Strings (min length: {min_length})[/bold yellow]")
         
-        strings = []
         try:
             with open(self.dump_file, 'rb') as f:
                 data = f.read()
                 
-            # ASCII strings
-            ascii_pattern = re.compile(b'[\x20-\x7E]{' + str(min_length).encode() + b',}')
-            ascii_strings = [s.decode('ascii') for s in ascii_pattern.findall(data)]
-            
-            # Unicode strings (simple detection)
-            unicode_pattern = re.compile(b'(?:[\x20-\x7E]\x00){' + str(min_length).encode() + b',}')
-            unicode_strings = [s.decode('utf-16le').rstrip('\x00') for s in unicode_pattern.findall(data)]
-            
-            strings = list(set(ascii_strings + unicode_strings))[:max_strings]
+            string_data = common.extract_strings(data, min_length)
+            strings = string_data["all"][:max_strings]
             
         except Exception as e:
             self.console.print(f"[red]Error extracting strings: {e}[/red]")
@@ -125,7 +115,6 @@ class DumpAnalyzer:
                 if len(items) > 10:
                     self.console.print(f"  ... and {len(items) - 10} more")
         
-        # Return both raw strings and categorized results
         return {
             "raw_strings": strings,
             "categorized": categorized,
@@ -222,7 +211,7 @@ class DumpAnalyzer:
                 "file_size": os.path.getsize(self.dump_file),
                 "magic_bytes": header[:16].hex(),
                 "possible_format": self.identify_dump_format(header),
-                "entropy": self.calculate_entropy(header),
+                "entropy": common.calculate_entropy(header),
                 "null_bytes": header.count(b'\x00'),
                 "printable_chars": sum(1 for b in header if 32 <= b <= 126),
             }
@@ -258,34 +247,9 @@ class DumpAnalyzer:
                 
         return "Unknown/Custom Format"
         
-    def calculate_entropy(self, data: bytes) -> float:
-        """Calculate Shannon entropy of data"""
-        if len(data) == 0:
-            return 0.0
-            
-        import math
-        entropy = 0.0
-        for i in range(256):
-            count = data.count(i)
-            if count > 0:
-                freq = count / len(data)
-                entropy -= freq * math.log2(freq)
-                
-        return entropy
-        
     def search_for_patterns(self) -> Dict[str, List[str]]:
         """Search for interesting patterns in the dump"""
         self.console.print(f"\n[bold yellow]>> Pattern Recognition[/bold yellow]")
-        
-        patterns = {
-            "IP Addresses": r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b',
-            "Email Addresses": r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',
-            "URLs": r'https?://[^\s<>"]+',
-            "Registry Paths": r'HKEY_[A-Z_]+\\[^\x00-\x1f\x7f-\xff]*',
-            "File Extensions": r'\.\w{2,4}\b',
-            "Hex Values": r'0x[a-fA-F0-9]{4,}',
-            "Version Numbers": r'\d+\.\d+\.\d+(?:\.\d+)?',
-        }
         
         results = {}
         
@@ -303,13 +267,13 @@ class DumpAnalyzer:
                 # Convert to string for regex (ignore errors)
                 text = data.decode('utf-8', errors='ignore')
                 
-                for pattern_name, pattern in patterns.items():
+                for pattern_name, pattern in common.PATTERNS.items():
                     matches = list(set(re.findall(pattern, text, re.IGNORECASE)))
-                    results[pattern_name] = matches  # Show all results
+                    results[pattern_name] = matches[:50]  # Limit results
                     
                     if matches:
                         self.console.print(f"\n[bold green]{pattern_name}:[/bold green]")
-                        for match in matches[:10]:  # Show more in console
+                        for match in matches[:10]:
                             self.console.print(f"  • {match}")
                         if len(matches) > 10:
                             self.console.print(f"  ... and {len(matches) - 10} more")
@@ -351,7 +315,7 @@ class DumpAnalyzer:
                                 f.write("\n")
                     
                 elif isinstance(data, dict):
-                    # Handle other dictionaries (File Info, Memory Structure, Pattern Matches)
+                    # Handle other dictionaries
                     if section == "Pattern Matches":
                         for pattern_type, matches in data.items():
                             if matches:
@@ -360,26 +324,18 @@ class DumpAnalyzer:
                                     f.write(f"- `{match}`\n")
                                 f.write("\n")
                     else:
-                        # Regular dictionary formatting for File Info, Memory Structure
+                        # Regular dictionary formatting
                         for key, value in data.items():
                             f.write(f"- **{key.replace('_', ' ').title()}**: {value}\n")
                         
                 elif isinstance(data, list):
                     # Handle lists
-                    for item in data:  # Show all items
+                    for item in data:
                         f.write(f"- {item}\n")
                         
                 f.write("\n---\n\n")
                 
         self.console.print(f"[green]>> Report saved to: {report_file}[/green]")
-        
-    def format_size(self, size_bytes: int) -> str:
-        """Format file size in human readable format"""
-        for unit in ['B', 'KB', 'MB', 'GB']:
-            if size_bytes < 1024.0:
-                return f"{size_bytes:.1f} {unit}"
-            size_bytes /= 1024.0
-        return f"{size_bytes:.1f} TB"
         
     def run_analysis(self):
         """Run the complete analysis"""
@@ -405,27 +361,10 @@ class DumpAnalyzer:
 
 def main():
     """Main function"""
-    # Look for dump files in current directory
-    dump_files = list(Path('.').glob('*.dmp'))
+    dump_file = common.select_dump_file()
     
-    if not dump_files:
-        print("ERROR: No .dmp files found in current directory!")
-        print("TIP: Make sure your dump file is in the same folder as this script.")
+    if not dump_file:
         sys.exit(1)
-        
-    if len(dump_files) == 1:
-        dump_file = str(dump_files[0])
-    else:
-        print(">> Multiple dump files found:")
-        for i, file in enumerate(dump_files):
-            print(f"  {i+1}. {file.name}")
-        
-        try:
-            choice = int(input("\nSelect file number: ")) - 1
-            dump_file = str(dump_files[choice])
-        except (ValueError, IndexError):
-            print("ERROR: Invalid selection!")
-            sys.exit(1)
     
     # Run analysis
     analyzer = DumpAnalyzer(dump_file)
