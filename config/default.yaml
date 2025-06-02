@@ -1,0 +1,170 @@
+# DumpSleuth Configuration File
+# This file defines default settings for analysis
+
+# General settings
+general:
+  # Maximum file size to analyze (in MB)
+  max_file_size: 1024
+  
+  # Temporary directory for processing
+  temp_dir: "temp"
+  
+  # Enable debug logging
+  debug: false
+  
+  # Number of worker threads for parallel processing
+  workers: 4
+
+# Analysis settings
+analysis:
+  # String extraction settings
+  strings:
+    enabled: true
+    min_length: 4
+    max_length: 256
+    encoding: ["utf-8", "utf-16", "ascii"]
+    
+  # Pattern matching
+  patterns:
+    enabled: true
+    # Patterns to search for
+    include:
+      - urls
+      - ip_addresses
+      - email_addresses
+      - file_paths
+      - registry_keys
+      - passwords
+      - crypto_keys
+    
+  # Memory structure analysis
+  memory:
+    enabled: true
+    # Analyze heap structures
+    analyze_heap: true
+    # Extract process information
+    extract_processes: true
+    # Build memory map
+    create_memory_map: true
+
+# Plugin settings
+plugins:
+  # Directory to load custom plugins from
+  plugin_dir: "plugins"
+  
+  # Enabled plugins
+  enabled:
+    - network_analyzer
+    - registry_analyzer
+    - string_extractor
+    - pattern_matcher
+    
+  # Plugin-specific settings
+  network_analyzer:
+    extract_dns: true
+    extract_http: true
+    extract_ssl: true
+    
+  registry_analyzer:
+    extract_run_keys: true
+    extract_services: true
+    extract_installed_software: true
+
+# Output settings
+output:
+  # Default output directory
+  output_dir: "reports"
+  
+  # Report formats to generate
+  formats: ["html", "json"]
+  
+  # HTML report settings
+  html:
+    # Include interactive visualizations
+    interactive: true
+    # Embed base64 images
+    embed_images: true
+    # Theme (light/dark)
+    theme: "light"
+    
+  # JSON report settings
+  json:
+    # Pretty print JSON
+    pretty: true
+    # Include raw data
+    include_raw: false
+    
+  # Compress output files
+  compress: false
+  
+  # Archive old reports after X days
+  archive_after_days: 30
+
+# Performance settings
+performance:
+  # Memory buffer size (in MB)
+  buffer_size: 64
+  
+  # Enable caching
+  cache_enabled: true
+  cache_size: 512
+  
+  # Chunk size for file reading (in MB)
+  chunk_size: 10
+  
+  # Enable memory mapping for large files
+  use_mmap: true
+
+# Security settings
+security:
+  # Sandbox untrusted operations
+  sandbox: true
+  
+  # Scan for malware indicators
+  malware_scan: true
+  
+  # YARA rules directory
+  yara_rules: "rules/yara"
+  
+  # Validate file signatures
+  validate_signatures: true
+
+# Notification settings
+notifications:
+  # Send notifications on completion
+  enabled: false
+  
+  # Email settings
+  email:
+    smtp_server: "smtp.example.com"
+    smtp_port: 587
+    use_tls: true
+    from_address: "dumpsleuth@example.com"
+    to_addresses: []
+    
+  # Webhook for integrations
+  webhook:
+    url: ""
+    method: "POST"
+    
+# Advanced settings
+advanced:
+  # Custom regex patterns
+  custom_patterns:
+    bitcoin_address: "\\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\\b"
+    credit_card: "\\b(?:\\d[ -]*?){13,16}\\b"
+    
+  # File type detection
+  magic_file: "magic.mgc"
+  
+  # Entropy threshold for encryption detection
+  entropy_threshold: 7.5
+  
+  # Heuristics
+  heuristics:
+    # Detect packed executables
+    detect_packers: true
+    # Identify encoding/encryption
+    detect_encoding: true
+    # Find anti-analysis techniques
+    detect_anti_analysis: true 
