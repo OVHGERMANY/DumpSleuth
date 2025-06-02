@@ -21,9 +21,23 @@ build/
 
 # Project specific
 reports/
-*.dmp
 dump_strings.txt
 *.log
+
+# Dump files directory
+dumps/*
+!dumps/.gitkeep
+!dumps/README.md
+!dumps/temp/
+dumps/temp/*
+!dumps/temp/.gitkeep
+
+# Dump file extensions (when outside dumps directory)
+*.dmp
+*.dump
+*.mdmp
+*.hdmp
+*.core
 
 # Windows
 Thumbs.db
