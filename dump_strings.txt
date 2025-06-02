@@ -1,0 +1,164 @@
+MDMP
+?mE4
+RSDS
+ntdll.pdb
+RSDS
+kernel32.pdb
+RSDS
+kernelbase.pdb
+RSDS
+c'xDGJ
+wintrust.pdb
+RSDS
+msvcrt.pdb
+RSDS
+rpcrt4.pdb
+RSDS
+4K4Nw
+crypt32.pdb
+RSDS
+ucrtbase.pdb
+RSDS
+ws2_32.pdb
+RSDS
+advapi32.pdb
+RSDSw$
+sechost.pdb
+RSDS
+<Cpf
+bcrypt.pdb
+RSDSM
+msasn1.pdb
+RSDS
+ntmarta.pdb
+RSDS
+mswsock.pdb
+RSDS
+NapiNSP.pdb
+RSDS
+pnrpnsp.pdb
+RSDS
+dnsapi.pdb
+RSDSyL
+iphlpapi.pdb
+RSDS
+nsi.pdb
+RSDS
+winrnr.pdb
+RSDS
+wshbth.pdb
+RSDS
+nlansp_c.pdb
+RSDSzs
+msvcp_win.pdb
+RSDS
+rasadhlp.pdb
+RSDS{:T
+imagehlp.pdb
+RSDSu5
+cryptsp.pdb
+RSDSP
+rsaenh.pdb
+RSDS
+cryptbase.pdb
+RSDS
+bcryptprimitives.pdb
+RSDSw
+gpapi.pdb
+RSDS
+cryptnet.pdb
+RSDSU
+=^F1z
+profapi.pdb
+$H-v
+ASYC
+bYem
+$|rQ
+N_**
+WinSock 2.0
+Running
+363220
+Flags
+BEDaisy Instance
+\Driver\
+Altitude
+ntdll.dll
+Instances
+\\.\pipe\BattlEye
+\FileSystem\
+\\.\BlackBone
+\\.\BattlEye
+DefaultInstance
+NtQuerySystemInformation
+SYSTEM\CurrentControlSet\Services\BEDaisy
+]WD:\Path of Titans\WindowsNoEditor\PathOfTitans\Binaries\Win64\BattlEye\BEClient_x64.dll
+BattlEye Innovations e.K.
+[?P'TTTTT
+3< +
+,5;l
+LJ.i
+P7An
+:/tk,
++DH+
+=[dth
+0+7q
+H"Sc2@
+svOH
+4%T0.
+'%&!
+H^V^
+M%bD
+U _c
+Microsoft Windows
+dware Compatibility Publisher
+\FileSystem\RAW
+Microsoft Windows
+ameflt.sys
+Microsoft Windows
+ntel Corporation
+pot1.battleye.com
+Microsoft Windows
+Hardware Compatibility Publisher
+khhh
+6X''''''&k
+ S*YY
+-////--
+L8]1
+R=O?P"C7^1_____;
+!This program cannot be run in DOS mode.
+Rich
+.text
+h.rdata
+H.data
+.pdata
+H.idata
+HPAGENWan+
+`PAGE
+`fothk
+`INIT
+bGFIDS
+B.rsrc
+B.reloc
+!This program cannot be run in DOS mode.
+.text
+`.rdata
+@.data
+.pdata
+@_RDATA
+@.be0
+`.be1
+.be2
+h.rsrc
+@.reloc
+!This program cannot be run in DOS mode.
+.text
+`.rdata
+@.data
+.pdata
+@_RDATA
+@.be0
+`.be1
+.be2
+h.rsrc
+@.reloc
+jG'v

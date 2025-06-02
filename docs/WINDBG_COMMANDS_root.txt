@@ -1,0 +1,276 @@
+# WinDbg Commands for Memory Dump Analysis
+# Reference guide for advanced dump analysis using Microsoft WinDbg
+
+# ============================================================================
+# GETTING STARTED
+# ============================================================================
+
+# 1. Install Debugging Tools for Windows from Microsoft
+# 2. Open Command Prompt as Administrator
+# 3. Navigate to WinDbg installation directory (usually C:\Program Files\Debugging Tools for Windows)
+# 4. Load your dump file with one of these commands:
+
+# For graphical interface:
+windbg -z "BEService.exe_2025-06-01_17-39-41.dmp"
+
+# For command line:
+kd -z "BEService.exe_2025-06-01_17-39-41.dmp"
+
+# ============================================================================
+# BASIC ANALYSIS COMMANDS
+# ============================================================================
+
+# Get basic crash information
+!analyze -v
+
+# Show loaded modules
+lm
+
+# List all modules with details
+lmv
+
+# Show stack trace
+k
+
+# Show detailed stack trace
+kv
+
+# Show all threads
+~
+
+# Switch to specific thread (replace 0 with thread number)
+~0s
+
+# ============================================================================
+# MEMORY ANALYSIS
+# ============================================================================
+
+# Display memory at address (replace xxxxxxxx with actual address)
+d xxxxxxxx
+
+# Display memory as DWORDs
+dd xxxxxxxx
+
+# Display memory as ASCII
+da xxxxxxxx
+
+# Display memory as Unicode
+du xxxxxxxx
+
+# Search for ASCII string in memory
+s -a 0 L?80000000 "BattlEye"
+
+# Search for Unicode string
+s -u 0 L?80000000 "BattlEye"
+
+# Search for byte pattern (example: search for 41 42 43)
+s -b 0 L?80000000 41 42 43
+
+# ============================================================================
+# PROCESS AND THREAD INFORMATION
+# ============================================================================
+
+# Show process information
+!process 0 0
+
+# Show detailed process info
+!process 0 f
+
+# Show current process
+!process
+
+# Show thread information
+!thread
+
+# Show all threads in current process
+!process 0 0 BEService.exe
+
+# ============================================================================
+# MODULE ANALYSIS
+# ============================================================================
+
+# Show information about a specific module
+lmv m BEService
+
+# Show module headers
+!dh BEService
+
+# Show imports for a module
+!imports BEService
+
+# Show exports for a module
+!exports BEService
+
+# ============================================================================
+# HEAP ANALYSIS
+# ============================================================================
+
+# Show heap information
+!heap
+
+# Show all heaps
+!heap -s
+
+# Show heap entries
+!heap -a
+
+# Validate heap
+!heap -x
+
+# ============================================================================
+# HANDLE ANALYSIS
+# ============================================================================
+
+# Show handles
+!handle
+
+# Show detailed handle information
+!handle 0 f
+
+# Show handles for specific process
+!handle 0 f Process
+
+# ============================================================================
+# REGISTRY ANALYSIS
+# ============================================================================
+
+# Show registry information (if available)
+!reg
+
+# ============================================================================
+# NETWORK ANALYSIS
+# ============================================================================
+
+# Show network connections (if available)
+!netstat
+
+# ============================================================================
+# BATTLEYE SPECIFIC ANALYSIS
+# ============================================================================
+
+# Look for BattlEye specific strings
+s -a 0 L?80000000 "BattlEye"
+s -a 0 L?80000000 "BE_"
+s -a 0 L?80000000 "anticheat"
+
+# Search for common BattlEye file paths
+s -a 0 L?80000000 "BEService"
+s -a 0 L?80000000 "BEDaisy"
+
+# Look for configuration data
+s -a 0 L?80000000 "config"
+s -a 0 L?80000000 "settings"
+
+# Search for error messages
+s -a 0 L?80000000 "error"
+s -a 0 L?80000000 "failed"
+s -a 0 L?80000000 "exception"
+
+# ============================================================================
+# ADVANCED ANALYSIS
+# ============================================================================
+
+# Show exception information
+!analyze -show
+
+# Show crash dump header
+!analyze -hang
+
+# Show symbol information
+!sym noisy
+
+# Reload symbols
+.reload
+
+# Set symbol path (replace with your symbol path)
+.sympath srv*c:\symbols*https://msdl.microsoft.com/download/symbols
+
+# Show memory usage
+!vm
+
+# Show pool usage
+!poolused
+
+# Show driver information
+!drvobj
+
+# ============================================================================
+# DEBUGGING TIPS
+# ============================================================================
+
+# 1. Always run !analyze -v first to get basic crash information
+# 2. Check the call stack with 'k' or 'kv' commands
+# 3. Look at loaded modules with 'lm' to see what was running
+# 4. Use string searches to find configuration data
+# 5. Check handles to see what files/registry keys were open
+# 6. Look for error messages or exception information
+
+# ============================================================================
+# COMMON BATTLEYE CRASH CAUSES
+# ============================================================================
+
+# 1. Driver conflicts - check loaded drivers with !drvobj
+# 2. Memory corruption - look for heap corruption with !heap -x
+# 3. Anti-virus interference - check for AV hooks in call stack
+# 4. Game modification detection - look for suspicious modules
+# 5. Network connectivity issues - check network handles
+
+# ============================================================================
+# EXPORT COMMANDS
+# ============================================================================
+
+# Save analysis to file
+.logopen analysis.txt
+!analyze -v
+.logclose
+
+# Save memory dump to file
+.dump /f /o dump_output.dmp
+
+# Save specific memory range to file (replace addresses)
+.writemem memory_range.bin xxxxxxxx xxxxxxxx+1000
+
+# ============================================================================
+# SYMBOL SETUP
+# ============================================================================
+
+# If you have symbols, set up the symbol path:
+.sympath srv*c:\symbols*https://msdl.microsoft.com/download/symbols
+
+# For local symbols:
+.sympath c:\symbols
+
+# Reload symbols after setting path:
+.reload /f
+
+# ============================================================================
+# NOTES FOR BEGINNERS
+# ============================================================================
+
+# - WinDbg can be intimidating, but start with !analyze -v
+# - Most commands can be abbreviated (e.g., 'lm' instead of 'list modules')
+# - Use 'k' to see the call stack when the crash occurred
+# - String searches can reveal interesting configuration data
+# - Always work with a copy of the dump file
+# - Some information may not be available depending on dump type
+
+# ============================================================================
+# USEFUL EXTENSIONS
+# ============================================================================
+
+# Load additional extensions if available:
+.load wow64exts
+.load ntsdexts
+
+# ============================================================================
+# GETTING HELP
+# ============================================================================
+
+# Get help for any command:
+.help
+.help !analyze
+.help k
+.help s
+
+# Online documentation:
+# https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/ 
