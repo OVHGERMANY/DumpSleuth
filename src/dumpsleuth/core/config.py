@@ -68,7 +68,7 @@ class ConfigManager:
     DEFAULT_CONFIG_PATHS = [
         Path("config/default.yaml"),
         Path("config/dumpsleuth.yaml"),
-        Path.home() / ".dumpsleuth" / "config.yaml"),
+        Path.home() / ".dumpsleuth" / "config.yaml",
         Path("/etc/dumpsleuth/config.yaml")
     ]
     

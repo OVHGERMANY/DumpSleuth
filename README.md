@@ -47,15 +47,14 @@ Check out these guides to get started:
 
 ## License
 
-Copyright (c) 2025 James. All rights reserved.
-
-This is personal-use software. That means:
+This project is distributed under a personal-use license. In short:
 - No sharing or redistributing
 - No commercial use
 - No modifications
 - No incorporating into other projects
 
-Questions about licensing? Email james.nelson@jamesnelsonsec.xyz
+See [LICENSE](LICENSE) for the full terms. Questions about licensing? Email
+james.nelson@jamesnelsonsec.xyz
 
 ## Important Note
 

@@ -7,7 +7,7 @@ name = "dumpsleuth"
 version = "2.0.0"
 description = "Modern Memory Dump Analysis Toolkit"
 readme = "README.md"
-license = {text = "MIT"}
+license = {file = "LICENSE"}
 authors = [{name = "James Nelson", email = "james.nelson@jamesnelsonsec.xyz"}]
 maintainers = [{name = "James Nelson", email = "james.nelson@jamesnelsonsec.xyz"}]
 classifiers = [
