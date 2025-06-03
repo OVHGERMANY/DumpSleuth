@@ -33,14 +33,14 @@ __all__ = [
     "DumpAnalyzer",
     "AnalysisResult",
     "AnalyzerPlugin",
-    "PluginManager", 
+    "PluginManager",
     "Config",
     "get_default_config",
     "DumpData",
     "DumpParser",
     "DumpAnalysisError",
     "CorruptedDumpError",
-    
+
     # Plugins
     "StringsExtractorPlugin",
     "NetworkExtractorPlugin",
@@ -50,10 +50,10 @@ __all__ = [
     
     # Reporting
     "get_reporter",
-    
+
     # CLI
     "cli",
-    
+
     # Metadata
     "__version__",
     "__author__",
@@ -63,15 +63,15 @@ __all__ = [
 def analyze(dump_path: str, output_format: str = "html", config_path: str = None) -> str:
     """
     Quick analysis function for simple use cases.
-    
+
     Args:
         dump_path: Path to the dump file
         output_format: Output format (html, json, markdown)
         config_path: Optional path to configuration file
-        
+
     Returns:
         Path to the generated report
-        
+
     Example:
         >>> import dumpsleuth
         >>> report = dumpsleuth.analyze("memory.dmp")
@@ -79,11 +79,11 @@ def analyze(dump_path: str, output_format: str = "html", config_path: str = None
     """
     analyzer = DumpAnalyzer(dump_path, config=config_path)
     results = analyzer.analyze()
-    
+
     # Generate output filename
     from pathlib import Path
     dump_name = Path(dump_path).stem
     output_path = f"{dump_name}_report"
-    
+
     results.save(output_path, format=output_format)
     return output_path
