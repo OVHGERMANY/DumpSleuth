@@ -49,4 +49,4 @@ class PatternMatcher(AnalyzerPlugin):
         return ["*"]
 
     def get_priority(self) -> int:
-        return 15 
+        return 15

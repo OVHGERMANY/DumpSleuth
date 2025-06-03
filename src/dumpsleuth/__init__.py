@@ -46,6 +46,7 @@ __all__ = [
     "NetworkExtractorPlugin",
     "RegistryExtractorPlugin",
     "ProcessExtractorPlugin",
+    "PatternMatcher",
     
     # Reporting
     "get_reporter",

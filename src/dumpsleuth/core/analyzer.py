@@ -115,14 +115,16 @@ class DumpAnalyzer:
         # Import and register default plugins
         from ..extractors.network import NetworkExtractorPlugin
         from ..extractors.processes import ProcessExtractorPlugin
+        from ..extractors.pattern_matcher import PatternMatcher
         from ..extractors.registry import RegistryExtractorPlugin
         from ..extractors.strings_plugin import StringsExtractorPlugin
-
+    
         default_plugins = {
             'strings': StringsExtractorPlugin,
             'network': NetworkExtractorPlugin,
             'registry': RegistryExtractorPlugin,
-            'processes': ProcessExtractorPlugin
+            'processes': ProcessExtractorPlugin,
+            'pattern_matcher': PatternMatcher
         }
 
         enabled_plugins = self.config.get(
