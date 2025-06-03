@@ -247,3 +247,12 @@ class DumpAnalyzer:
                 summary[f"{plugin_name}_summary"] = data['summary']
                 
         return summary 
+
+    def get_dump_info(self) -> Dict[str, Any]:
+        """Return basic metadata about the dump file without running plugins."""
+        logger.info(f"Gathering dump info for {self.dump_file}")
+        dump_data = self.parser.parse(recovery_mode=True)
+        info = {"dump_file": str(self.dump_file)}
+        info.update(dump_data.metadata)
+        dump_data.close()
+        return info
