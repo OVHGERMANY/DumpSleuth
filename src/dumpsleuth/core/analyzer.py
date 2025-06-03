@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional, Union
 
 from ..core.config import Config, get_default_config
 from ..core.parser import DumpParser
-from ..core.plugin import AnalyzerPlugin, PluginManager
+
 
 logger = logging.getLogger(__name__)
 
@@ -119,10 +119,10 @@ class DumpAnalyzer:
         from ..extractors.strings_plugin import StringsExtractorPlugin
 
         default_plugins = {
-            "strings": StringsExtractorPlugin,
-            "network": NetworkExtractorPlugin,
-            "registry": RegistryExtractorPlugin,
-            "processes": ProcessExtractorPlugin,
+            'strings': StringsExtractorPlugin,
+            'network': NetworkExtractorPlugin,
+            'registry': RegistryExtractorPlugin,
+            'processes': ProcessExtractorPlugin
         }
 
         enabled_plugins = self.config.get(
