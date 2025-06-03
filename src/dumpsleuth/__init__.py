@@ -20,6 +20,7 @@ from .extractors.strings_plugin import StringsExtractorPlugin
 from .extractors.network import NetworkExtractorPlugin
 from .extractors.registry import RegistryExtractorPlugin
 from .extractors.processes import ProcessExtractorPlugin
+from .extractors.pattern_matcher import PatternMatcher
 
 # Reporting
 from .reporting import get_reporter
@@ -45,6 +46,7 @@ __all__ = [
     "NetworkExtractorPlugin",
     "RegistryExtractorPlugin",
     "ProcessExtractorPlugin",
+    "PatternMatcher",
     
     # Reporting
     "get_reporter",

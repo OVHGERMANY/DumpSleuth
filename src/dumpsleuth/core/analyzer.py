@@ -17,6 +17,7 @@ from collections import defaultdict
 from ..core.plugin import PluginManager, AnalyzerPlugin
 from ..core.config import Config, get_default_config
 from ..core.parser import DumpParser
+from ..extractors.pattern_matcher import PatternMatcher
 
 
 logger = logging.getLogger(__name__)
@@ -125,7 +126,8 @@ class DumpAnalyzer:
             'strings': StringsExtractorPlugin,
             'network': NetworkExtractorPlugin,
             'registry': RegistryExtractorPlugin,
-            'processes': ProcessExtractorPlugin
+            'processes': ProcessExtractorPlugin,
+            'pattern_matcher': PatternMatcher
         }
         
         enabled_plugins = self.config.get('plugins.enabled', list(default_plugins.keys()))
