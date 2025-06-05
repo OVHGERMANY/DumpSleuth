@@ -248,7 +248,3 @@ class DumpAnalyzer:
 
         # Add summary from each plugin
         for plugin_name, data in self.results.results.items():
-            if "summary" in data:
-                summary[f"{plugin_name}_summary"] = data["summary"]
-
-        return summary
